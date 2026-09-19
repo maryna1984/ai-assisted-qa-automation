@@ -1,0 +1,23 @@
+{
+  "name": "ai-assisted-qa-automation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maryna1984/ai-assisted-qa-automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/maryna1984/ai-assisted-qa-automation/issues"
+  },
+  "homepage": "https://github.com/maryna1984/ai-assisted-qa-automation#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.1"
+  }
+}
