@@ -3,7 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:ds1": "playwright test tests/ds1-create-program.spec.ts",
+    "test:ds2": "playwright test tests/ds2-edit-program.spec.ts",
+    "test:ds3": "playwright test tests/ds3-program-validation.spec.ts",
+    "test:ds4": "playwright test tests/ds4-delete-program.spec.ts",
+    "test:ds5": "playwright test tests/ds5-program-list.spec.ts",
+    "test:didaxis": "playwright test tests/ds1-create-program.spec.ts tests/ds2-edit-program.spec.ts tests/ds3-program-validation.spec.ts tests/ds4-delete-program.spec.ts tests/ds5-program-list.spec.ts"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maryna1984/ai-assisted-qa-automation.git"
@@ -19,5 +26,8 @@
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.1"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.5"
   }
 }
