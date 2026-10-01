@@ -11,15 +11,15 @@ test.describe('React TodoMVC', () => {
 
   test.describe('Positive flows', () => {
     test('TC-001 new todo is appended and the input is cleared', async () => {
-      await expect(todo.footer).toHaveCount(0);
+      await todo.expectNoTodos();
 
-      await todo.newTodo.click();
       await todo.add('Buy milk');
 
-      await todo.expectTitles(['Buy milk']);
+      const buyMilk = todo.todoRow('Buy milk');
+      await expect(buyMilk).toBeVisible();
       await expect(todo.toggle('Buy milk')).not.toBeChecked();
       await expect(todo.newTodo).toHaveValue('');
-      await todo.expectCount('1 item left');
+      await expect(todo.itemsLeft('1 item left')).toBeVisible();
       await expect(todo.filter('All')).toHaveClass(/selected/);
     });
 
@@ -176,7 +176,7 @@ test.describe('React TodoMVC', () => {
       await todo.newTodo.press('Enter');
 
       await expect(todo.todoItems).toHaveCount(0);
-      await expect(todo.footer).toHaveCount(0);
+      await todo.expectNoTodos();
       await expect(todo.newTodo).toHaveValue('');
     });
 
@@ -340,9 +340,7 @@ test.describe('React TodoMVC', () => {
 
       await todo.delete('Buy milk');
 
-      await expect(todo.todoItems).toHaveCount(0);
-      await expect(todo.footer).toHaveCount(0);
-      await expect(todo.filter('All')).toHaveCount(0);
+      await todo.expectNoTodos();
       await expect(todo.markAll).toHaveCount(0);
       await expect(todo.newTodo).toBeVisible();
     });

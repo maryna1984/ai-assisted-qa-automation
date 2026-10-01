@@ -25,12 +25,25 @@
 ## Positive flows
 
 ### TC-001 — New todo is appended and the input is cleared
+- **Maps to AC:** User can add a todo item to the list
 - **Preconditions:** Browser is open on `https://demo.playwright.dev/todomvc/#/`. The list is empty, so the footer is not shown.
 - **Steps:**
   1. Click the `What needs to be done?` textbox.
   2. Type `Buy milk`.
   3. Press Enter.
 - **Expected result:** The list shows one item, `Buy milk`, with an unchecked `Toggle Todo` checkbox. The textbox is empty. The footer shows `1 item left`, and `All` is selected.
+- **Gherkin:**
+```gherkin
+Given I am on "https://demo.playwright.dev/todomvc/#/"
+And the todo list is empty
+When I click the "What needs to be done?" textbox
+And I type "Buy milk"
+And I press Enter
+Then the list shows "Buy milk" with an unchecked "Toggle Todo" checkbox
+And the "What needs to be done?" textbox is empty
+And the footer shows "1 item left"
+And the "All" filter is selected
+```
 
 ### TC-002 — Each new todo is added after the existing items
 - **Preconditions:** The list contains `Buy milk`.

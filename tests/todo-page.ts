@@ -7,24 +7,40 @@ export class TodoPage {
   readonly newTodo: Locator;
   readonly todoItems: Locator;
   readonly todoTitles: Locator;
-  readonly todoCount: Locator;
   readonly markAll: Locator;
   readonly clearCompleted: Locator;
-  readonly footer: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.newTodo = page.getByRole('textbox', { name: 'What needs to be done?' });
     this.todoItems = page.getByTestId('todo-item');
     this.todoTitles = page.getByTestId('todo-title');
-    this.todoCount = page.locator('.todo-count');
-    this.markAll = page.getByRole('checkbox', { name: 'Mark all as complete' });
+    this.markAll = page.getByRole('checkbox', { name: /Mark all as complete/ });
     this.clearCompleted = page.getByRole('button', { name: 'Clear completed' });
-    this.footer = page.locator('footer.footer');
   }
 
   async open() {
     await this.page.goto(TODO_URL);
+    await this.page.evaluate(() => localStorage.clear());
+    await this.page.reload();
+  }
+
+  /** Todo row in the main list (not All / Active / Completed filters). */
+  todoRow(title: string) {
+    return this.page
+      .getByRole('listitem')
+      .filter({ has: this.page.getByRole('checkbox', { name: 'Toggle Todo' }) })
+      .filter({ has: this.page.getByText(title, { exact: true }) });
+  }
+
+  itemsLeft(text: string) {
+    return this.page.getByText(text, { exact: true });
+  }
+
+  async expectNoTodos() {
+    await expect(this.todoItems).toHaveCount(0);
+    await expect(this.filter('All')).toHaveCount(0);
+    await expect(this.page.getByText(/item left/)).toHaveCount(0);
   }
 
   async add(title: string) {
@@ -33,9 +49,7 @@ export class TodoPage {
   }
 
   item(title: string) {
-    return this.todoItems.filter({
-      has: this.page.getByTestId('todo-title').getByText(title, { exact: true }),
-    });
+    return this.todoRow(title);
   }
 
   toggle(title: string) {
@@ -70,7 +84,7 @@ export class TodoPage {
   }
 
   async expectCount(text: string) {
-    await expect(this.todoCount).toHaveText(text);
+    await expect(this.itemsLeft(text)).toBeVisible();
   }
 
   async expectCompleted(title: string) {
